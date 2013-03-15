@@ -21,12 +21,6 @@ public class Cyk
    /* The 2 dimensional table for the CYK algorithm */
    private static ArrayList<String>[][] table;
 
-   /*
-    * The list of productions given in the grammar file The only productions
-    * stored in the HashSet are productions in the form A -> BC where A, B, and
-    * C are Variables
-    */
-   private HashMap<String, String[]> productions;
    private HashMap<String, String[]> variables;
    private HashMap<String, Character> terminals;
 
@@ -38,7 +32,6 @@ public class Cyk
     */
    public Cyk()
    {
-      productions = new HashMap<String, String[]>();
       variables = new HashMap<String, String[]>();
       terminals = new HashMap<String, Character>();
    }
@@ -50,22 +43,19 @@ public class Cyk
    public void processGrammarFile(String file)
    {
       File grammarFile = null;
-      Scanner in = null;
+      Scanner scanner = null;
       try
       {
          grammarFile = new File(file);
-         in = new Scanner(grammarFile);
-         String[] line = in.nextLine().split(":");
+         scanner = new Scanner(grammarFile);
+         String[] line = scanner.nextLine().split(":");
          startVariable = line[0];
-         while (!in.hasNextLine())
+         do
          {
             String variable = line[0];
-            String[] buffer = new String[1];
-            buffer[0] = line[0];
             if ((line[1].equals("a") || line[1].equals("b")))
             {
                terminals.put(variable, line[1].charAt(0));
-               productions.put(variable, buffer);
             }
             else
             {
@@ -73,10 +63,14 @@ public class Cyk
                if (rest != null)
                {
                   variables.put(variable, rest);
-                  productions.put(variable, rest);
                }
             }
-         }
+            if (scanner.hasNextLine())
+               line = scanner.nextLine().split(":");
+            else
+               line = null;
+         } while (line != null);
+         scanner.close();
       }
       catch (IOException ex)
       {
@@ -89,6 +83,7 @@ public class Cyk
     * @param w the input string to test
     * @return true if string w is accepted by the grammar, false otherwise.
     */
+   @SuppressWarnings("unchecked")
    public boolean processString(String w)
    {
       int length = w.length();
@@ -99,14 +94,14 @@ public class Cyk
          for (int j = 0; j < length; ++j)
             table[i][j] = new ArrayList < String > ();
       }
-      // Start CYK algorithm
       for (int i = 0; i < length; ++i)
       {
          Set<String> keys = terminals.keySet();
          for (String key : keys)
+         {
             if (terminals.get(key).charValue() == w.charAt(i))
                table[i][i].add(key);
-
+         }
       }
       for (int l = 2; l <= length; ++l)
       {
@@ -126,7 +121,7 @@ public class Cyk
             }
          }
       }
-      if (table[0][length].contains(startVariable))
+      if (table[0][length - 1].contains(startVariable)) // we started from 0
          return true;
       return false;
    }
