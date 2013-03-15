@@ -1,13 +1,16 @@
+import java.io.IOException;
 import java.io.File;
 import java.util.Scanner;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
 /**
  * Implements the CYK Algorithm that uses a context-free grammar file and checks
- * to see whether a given string is accepted by that grammar. CS154 Section 1
+ * to see whether a given string is accepted by that grammar.
+ * Author: Akshay Hegde
+ * CS154 Section 1
+ * Date: March 15, 2013
  */
 public class Cyk
 {
@@ -21,14 +24,24 @@ public class Cyk
    /* The 2 dimensional table for the CYK algorithm */
    private static ArrayList<String>[][] table;
 
+   /**
+   * variables are in the form of (0 U 1)+
+   * They are stored in the HashMap as (0 U 1)+ maps { (0 U 1)+, (0 U 1)+ }
+   */
    private HashMap<String, String[]> variables;
+
+   /** 
+    * terminals are in the form of (a U b) 
+    * They are stored in the hashmap in the form: (0 U 1)+ maps (a U b)
+    */
    private HashMap<String, Character> terminals;
 
    /* The start variable */
    private static String startVariable;
 
    /**
-    * Initializes a Cyk Object
+    * Constructs a Cyk object and initializes the HashMaps of the variables
+    * and the terminals
     */
    public Cyk()
    {
@@ -37,7 +50,8 @@ public class Cyk
    }
 
    /**
-    * Processes the grammar file and builds the list of productions
+    * Processes the grammar file and builds the HashMap of the list of terminals
+    * and variables. Uses the Scanner object to read the grammar file.
     * @param file the string representing the path of the grammar file
     */
    public void processGrammarFile(String file)
@@ -80,6 +94,7 @@ public class Cyk
 
    /**
     * Tests the string against the given grammar file using the CYK Algorithm.
+    * In the current version, warnings about type safety, are suppressed
     * @param w the input string to test
     * @return true if string w is accepted by the grammar, false otherwise.
     */
@@ -129,8 +144,9 @@ public class Cyk
    /**
     * Takes a given grammar file as the input and a given string to test
     * against that grammar.
-    * @param args the given command-line arguments. They will consist of the
-    *            grammar file and the string to test, strictly in that order.
+    * @param args the list of the given command-line arguments consisting
+    *             of the grammar file and the string to test, strictly in that
+    *             order.
     */
    public static void main(String[] args)
    {
@@ -139,8 +155,10 @@ public class Cyk
          System.out.println("Usage: java Cyk grammar_file some_string");
          System.exit(FILE_ERROR);
       }
+
       Cyk c = new Cyk();
       c.processGrammarFile(args[GRAMMAR_FILE]);
+
       if (c.processString(args[LAST_ARG]))
          System.out.println("true");
       else
