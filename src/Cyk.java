@@ -26,22 +26,32 @@ public class Cyk
     * stored in the HashSet are productions in the form A -> BC where A, B, and
     * C are Variables
     */
-   private static HashMap<String, String[]> productions;
-   private static HashMap<String, String[]> variables;
-   private static HashMap<String, Character> terminals;
+   private HashMap<String, String[]> productions;
+   private HashMap<String, String[]> variables;
+   private HashMap<String, Character> terminals;
 
    /* The start variable */
    private static String startVariable;
 
    /**
+    * Initializes a Cyk Object
+    */
+   public Cyk()
+   {
+      productions = new HashMap<String, String[]>();
+      variables = new HashMap<String, String[]>();
+      terminals = new HashMap<String, Character>();
+   }
+
+   /**
     * Processes the grammar file and builds the list of productions
     * @param file the string representing the path of the grammar file
     */
-   public static void processGrammarFile(String file) 
+   public void processGrammarFile(String file)
    {
       File grammarFile = null;
       Scanner in = null;
-      try 
+      try
       {
          grammarFile = new File(file);
          in = new Scanner(grammarFile);
@@ -68,7 +78,7 @@ public class Cyk
             }
          }
       }
-      catch (IOException ex) 
+      catch (IOException ex)
       {
          ex.printStackTrace();
       }
@@ -79,7 +89,7 @@ public class Cyk
     * @param w the input string to test
     * @return true if string w is accepted by the grammar, false otherwise.
     */
-   public static boolean processString(String w)
+   public boolean processString(String w)
    {
       int length = w.length();
       table = new ArrayList[length][];
@@ -129,16 +139,14 @@ public class Cyk
     */
    public static void main(String[] args)
    {
-      productions = new HashMap<String, String[]>();
-      variables = new HashMap<String, String[]>();
-      terminals = new HashMap<String, Character>();
       if (args.length != TOTAL_ARGS)
       {
          System.out.println("Usage: java Cyk grammar_file some_string");
          System.exit(FILE_ERROR);
       }
-      processGrammarFile(args[GRAMMAR_FILE]);
-      if (processString(args[LAST_ARG]))
+      Cyk c = new Cyk();
+      c.processGrammarFile(args[GRAMMAR_FILE]);
+      if (c.processString(args[LAST_ARG]))
          System.out.println("true");
       else
          System.out.println("false");
