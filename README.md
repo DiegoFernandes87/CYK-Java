@@ -1,4 +1,7 @@
-# Cocke-Younger-Algorithm This is the famous CYK algorithm implemented in Java.
+# Cocke-Younger-Algorithm 
+
+
+This is the famous CYK algorithm implemented in Java.
 It can be used to test a given string with a grammar file that is in ![Chomsky
 Normal Form](https://en.wikipedia.org/wiki/Chomsky_normal_form).
 
