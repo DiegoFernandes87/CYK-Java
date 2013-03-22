@@ -12,11 +12,14 @@ follow these rules which conform to Chomsky Normal Form:
 
 1. Clone the project, cd into the folder and then the src folder then run javac
    to compile:
-      git clone git://github.com/akshayhegde/CYK-Java cd CYK-Java/src/
-      javac Cyk.java
+
+    git clone git://github.com/akshayhegde/CYK-Java cd CYK-Java/src/
+       
+    javac Cyk.java
 2. Run the program by giving it a grammar file of your choosing and supplying
    a string:
-      java Cyk grammar.txt aabb
+
+       java Cyk grammar.txt aabb
 
 ### Requirements
   - Java 7 
