@@ -7,6 +7,7 @@ Normal Form](https://en.wikipedia.org/wiki/Chomsky_normal_form).
 
 The grammar file, which you can supply yourself or can use one of mine, must
 follow these rules which conform to Chomsky Normal Form:
+
   (0 U 1)+:(0 U 1)+, (0 U 1)+
   
   OR
